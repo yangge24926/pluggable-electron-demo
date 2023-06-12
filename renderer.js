@@ -10,6 +10,9 @@ async function setupPE() {
   // Enable activation point management
   setup({ importer: (plugin) => import(plugin) })
 
+  const active = await plugins.getActive()
+
+  console.log(active)
   // Register all active plugins with their activation points
   await plugins.registerActive()
 }
@@ -23,6 +26,10 @@ document.getElementById('install-file').addEventListener('submit', async (e) => 
   // Send the filename of the to be installed plugin
   // to the main process for installation
   const installed = await plugins.install([pluginFile])
+  // const installed = await plugins.install([{
+  //   specifier: pluginFile,
+  //   activate: true
+  // }])
   console.log('Installed plugin:', installed)
 })
 
@@ -85,6 +92,18 @@ document.getElementById('calc-price').addEventListener('submit', async (e) => {
   // Display result in the app
   document.getElementById('demo-cost').innerText = cost
 })
+
+
+// Calculate a cost based on plugin extensions
+document.getElementById('calc-price1').addEventListener('submit', async (e) => {
+  e.preventDefault()
+  const price = new FormData(e.target).get('price1')
+  // Get the cost, calculated in multiple steps, by the plugins
+  const cost = await extensionPoints.executeSerial('calc-price1', price)
+  // Display result in the app
+  document.getElementById('demo-cost1').innerText = cost
+})
+
 
 // Provide image url to plugins to display as desired
 document.getElementById('display-img').addEventListener('submit', async (e) => {
