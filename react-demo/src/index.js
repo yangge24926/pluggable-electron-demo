@@ -15,12 +15,3 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
-
-
-// Provide a synchronous method to manipulate the price provided by the extension point
-const addDelivery = price => price + 5
-
-// Register all the above functions and objects with the relevant extension points
-export function init({ register }) {
-  register('calc-price1', 'addVat', addDelivery)
-}
